@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="imu" params="xyz">
+        <link name="link_imu">
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <mesh filename="$(find diff_gz_nav2)/model/imu.STL" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="white">
+                    <color rgba="0.0 0.0 0.0 0.8"/>
+                </material>
+            </visual>
+        </link>
+
+        <joint name="joint_imu" type="fixed">
+            <parent link="body_link"/>
+            <child link="link_imu"/>
+            <origin xyz="${xyz}"/>
+        </joint>
+    </xacro:macro>
+
+    <xacro:macro name="imu_sensor">
+        <gazebo reference="link_imu">
+            <sensor name="scan_sensor" type="gpu_lidar">
+                <pose>0 0 0 0 0 0</pose>
+                <always_on>true</always_on>
+                <visualize>true</visualize>
+                <update_rate>5</update_rate>
+                <topic>scan_sensor/scan</topic>
+                <!-- 雷达扫描参数 -->
+                <ray>
+                    <scan>
+                        <horizontal>
+                            <samples>360</samples> <!-- 采样点 -->
+                            <resolution>1.0</resolution>
+                            <min_angle>0.0</min_angle>
+                            <max_angle>6.283185307179586</max_angle> <!-- 360度扫描 -->
+                        </horizontal>
+                    </scan>
+                    <range>
+                        <min>0.12</min>
+                        <max>8.0</max>
+                        <resolution>0.01</resolution>
+                    </range>
+                    <noise>
+                        <type>gaussian</type>
+                        <mean>0.0</mean>
+                        <stddev>0.01</stddev>
+                    </noise>
+                </ray>
+            </sensor>
+        </gazebo>
+    </xacro:macro>
+</robot>

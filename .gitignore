@@ -1,0 +1,24 @@
+# 编译生成的目录
+build/
+install/
+log/
+.colcon*
+.ros/
+
+# Python 缓存
+__pycache__/
+*.pyc
+
+# 编辑器文件
+.vscode/
+.idea/
+*.code-workspace
+
+# 系统文件
+.DS_Store
+*.swp
+*.swo
+
+# 如果你在 src 中直接编译过某些包，可能有临时文件
+*.o
+*.so
